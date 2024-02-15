@@ -37,5 +37,4 @@ public class Movie {
     public String getRating()   {
         return rating;
     }
-
 }
