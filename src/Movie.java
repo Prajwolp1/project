@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Movie {
 
     private String name;
@@ -6,6 +8,7 @@ public class Movie {
     private String summary;
     private String runTime;
     private String rating;
+    private ArrayList<String> actorsSeparated;
     public Movie(String name, String actors, String director, String summary, String runTime, String rating)  {
         this.name = name;
         this.actors = actors;
@@ -13,6 +16,7 @@ public class Movie {
         this.summary = summary;
         this.runTime = runTime;
         this.rating = rating;
+        actorsSeparated = new ArrayList<>();
     }
     public String getName() {
         return name;
@@ -20,6 +24,16 @@ public class Movie {
 
     public String getActors()   {
         return actors;
+    }
+    public void SeparatedActors()    {
+        String[] splitData = actors.split("|");
+        for (int i = 0; i < splitData.length; i++)  {
+            actorsSeparated.add(splitData[i]);
+        }
+    }
+    public ArrayList<String> getActorsSeparated()   {
+        SeparatedActors();
+        return actorsSeparated;
     }
 
     public String getDirector() {
