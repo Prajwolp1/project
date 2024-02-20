@@ -106,9 +106,50 @@ public class MovieCollection {
     }
 
     public void searchCast()    {
+        ArrayList<String> correctName = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter a person to search for (first and last name): ");
-        String name = scanner.nextLine();
-        for
+        System.out.print("Enter a person to search for (first or last name): ");
+        String name = scanner.nextLine().toLowerCase();
+        int count = 0;
+        for (int i = 0; i < Movies.size(); i++) {
+            ArrayList<String> cast = Movies.get(i).getActorsSeparated();
+            for (int j = 0; j < cast.size(); j++)   {
+                if (cast.get(j).toLowerCase().contains(name))   {
+                    count++;
+                    correctName.add(cast.get(j));
+                }
+            }
+        }
+
+        if (count == 0) {
+            System.out.println("No results match your search.");
+        }
+        if (count > 0)  {
+            for (int a = 0; a < correctName.size(); a++)    {
+                String checkWord = correctName.get(a);
+                for (int b = a + 1; b < correctName.size(); b++)    {
+                    if (correctName.get(b).equals(checkWord))   {
+                        correctName.remove(b);
+                    }
+                }
+            }
+            for (int i = 1; i < correctName.size(); i++)  {
+                String word = correctName.get(i);
+                int loop = i;
+                while (loop > 0 && word.compareTo(correctName.get(loop - 1)) < 0) {
+                    loop--;
+                }
+                String temp = correctName.get(i);
+                correctName.remove(i);
+                correctName.add(loop, temp);
+            }
+
+            for (int j = 1; j < correctName.size(); j++)    {
+                System.out.println(j + ". " + correctName.get(j));
+            }
+        }
+
+
+
     }
 }

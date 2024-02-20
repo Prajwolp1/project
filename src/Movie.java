@@ -25,14 +25,12 @@ public class Movie {
     public String getActors()   {
         return actors;
     }
-    public void SeparatedActors()    {
-        String[] splitData = actors.split("|");
+
+    public ArrayList<String> getActorsSeparated()   {
+        String[] splitData = actors.split("\\|");
         for (int i = 0; i < splitData.length; i++)  {
             actorsSeparated.add(splitData[i]);
         }
-    }
-    public ArrayList<String> getActorsSeparated()   {
-        SeparatedActors();
         return actorsSeparated;
     }
 
