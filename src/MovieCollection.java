@@ -109,47 +109,67 @@ public class MovieCollection {
         ArrayList<String> correctName = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a person to search for (first or last name): ");
-        String name = scanner.nextLine().toLowerCase();
+        String name = scanner.nextLine();
         int count = 0;
+
         for (int i = 0; i < Movies.size(); i++) {
             ArrayList<String> cast = Movies.get(i).getActorsSeparated();
             for (int j = 0; j < cast.size(); j++)   {
-                if (cast.get(j).toLowerCase().contains(name))   {
+                if (cast.get(j).toLowerCase().contains(name.toLowerCase()))   {
                     count++;
                     correctName.add(cast.get(j));
                 }
             }
         }
 
+        for (int i = 0; i < correctName.size(); i++)    {
+            String check = correctName.get(i);
+            for (int j = i + 1; j < correctName.size(); j++) {
+                if (correctName.get(j).contains(check))   {
+                    correctName.remove(j);
+                    j--;
+                }
+            }
+        }
+        for (int i = 1; i < correctName.size(); i++)  {
+            String word = correctName.get(i);
+            int loop = i;
+            while (loop > 0 && word.compareTo(correctName.get(loop - 1)) < 0) {
+                loop--;
+            }
+            String temp = correctName.get(i);
+            correctName.remove(i);
+            correctName.add(loop, temp);
+        }
+        int countOfLoop = 0;
+        for (int j = 0; j < correctName.size(); j++)    {
+            countOfLoop++;
+            System.out.println(countOfLoop + ". " + correctName.get(j));
+        }
+
         if (count == 0) {
             System.out.println("No results match your search.");
         }
         if (count > 0)  {
-            for (int a = 0; a < correctName.size(); a++)    {
-                String checkWord = correctName.get(a);
-                for (int b = a + 1; b < correctName.size(); b++)    {
-                    if (correctName.get(b).equals(checkWord))   {
-                        correctName.remove(b);
-                    }
+            ArrayList<Movie> actorsList = new ArrayList<>();
+            System.out.println("Which would you like to see movies for?");
+            System.out.print("Enter a number: ");
+            int num = scanner.nextInt();
+            String actor = correctName.get(num - 1);
+            int countOfActorsMovies = 1;
+            for (int i = 0; i < Movies.size(); i++) {
+                if (Movies.get(i).getActors().contains(actor))  {
+                    System.out.println(countOfActorsMovies + ". " + Movies.get(i).getName());
+                    countOfActorsMovies++;
+                    actorsList.add(Movies.get(i));
                 }
             }
-            for (int i = 1; i < correctName.size(); i++)  {
-                String word = correctName.get(i);
-                int loop = i;
-                while (loop > 0 && word.compareTo(correctName.get(loop - 1)) < 0) {
-                    loop--;
-                }
-                String temp = correctName.get(i);
-                correctName.remove(i);
-                correctName.add(loop, temp);
-            }
+            System.out.println("Which movie would you like to know more about?");
+            System.out.print("Enter a number: ");
+            int idxOfMovie = scanner.nextInt() - 1;
+            System.out.println("");
+            System.out.println("Title: " + actorsList.get(idxOfMovie).getName() + "\nRuntime: " + actorsList.get(idxOfMovie).getRunTime() + "\nDirected-By: " + actorsList.get(idxOfMovie).getDirector() + "\nCast: " + actorsList.get(idxOfMovie).getActors() + "\nOverview: " + actorsList.get(idxOfMovie).getSummary() + "\nRating: " + actorsList.get(idxOfMovie).getRating());
 
-            for (int j = 1; j < correctName.size(); j++)    {
-                System.out.println(j + ". " + correctName.get(j));
-            }
         }
-
-
-
     }
 }
